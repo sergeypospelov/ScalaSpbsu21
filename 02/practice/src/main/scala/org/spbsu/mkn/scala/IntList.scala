@@ -1,7 +1,7 @@
 package org.spbsu.mkn.scala
 
 // extraTask
-sealed trait Foldable[A] {
+trait Foldable[A] {
   def foldLeft[B](init: B)(op: (B, A) => B): B
 }
 
