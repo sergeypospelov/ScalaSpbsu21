@@ -26,14 +26,10 @@ object IntList {
 
   def sum(intList: IntList): Int = intList match {
     case IntNil => undef
-    case Cons(x, IntNil) => x
-    case Cons(x, xs) => x + IntList.sum(xs)
+    case lst => sumWithFoldLeft(lst)
   }
 
-  def size(intList: IntList): Int = intList match {
-    case IntNil => 0
-    case Cons(_, xs) => 1 + IntList.size(xs)
-  }
+  def size(intList: IntList): Int = intList.foldLeft(0)((sz, _) => sz + 1)
 
   // extra task: implement sum using foldLeft
 
@@ -62,24 +58,26 @@ case object IntNil extends IntList {
   override def foldLeft[B](init: B)(op: (B, Int) => B): B = init
 }
 
-case class Cons(x: Int, xs: IntList) extends IntList {
-  override def head: Int = x
+case class Cons(head: Int, tail: IntList) extends IntList {
 
-  override def tail: IntList = xs
-
-  override def drop(n: Int): IntList = if (n == 0) {
-    Cons(x, xs)
+  override def drop(n: Int): IntList = if (n < 0) {
+    IntList.undef
+  } else if (n == 0) {
+    Cons(head, tail)
   } else {
-    xs.drop(n - 1)
+    tail.drop(n - 1)
   }
 
-  override def take(n: Int): IntList = if (n == 0) {
+  override def take(n: Int): IntList = if (n < 0) {
+    IntList.undef
+  } else if (n == 0) {
     IntNil
-  } else {
-    Cons(x, xs.take(n - 1))
+  }
+  else {
+    Cons(head, tail.take(n - 1))
   }
 
-  override def map(f: Int => Int): IntList = Cons(f(x), xs.map(f))
+  override def map(f: Int => Int): IntList = Cons(f(head), tail.map(f))
 
-  override def foldLeft[B](init: B)(op: (B, Int) => B): B = op(xs.foldLeft(init)(op), x)
+  override def foldLeft[B](init: B)(op: (B, Int) => B): B = op(tail.foldLeft(init)(op), head)
 }
