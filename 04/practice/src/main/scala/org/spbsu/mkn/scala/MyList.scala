@@ -37,10 +37,14 @@ object MyList {
 
   // stable
   def sort[T](list: MyList[T])(implicit comparator: Ordering[T]): MyList[T] = {
-    val seq = list.foldLeft(Seq[T]()) { (s, el) => s :+ el } .reverse
+    val seq = list.foldLeft(Seq[T]()) { (s, el) => s :+ el }.reverse
     MyList.fromSeq(seq.sorted)
   }
 
+
+}
+
+object ListComparator {
   implicit def listComparator[T](implicit innerComparator: Ordering[T]): Ordering[MyList[T]] =
     (o1: MyList[T], o2: MyList[T]) => (o1, o2) match {
       case (Nil, Nil) => 0

@@ -2,6 +2,7 @@ package org.spbsu.mkn.scala
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.spbsu.mkn.scala.MyList.{fromSeq, size, sum}
+import ListComparator.listComparator
 
 class ListTest extends AnyFunSuite {
   test("head") {
@@ -61,6 +62,7 @@ class ListTest extends AnyFunSuite {
         fromSeq(
           Seq(
             fromSeq(Seq(2)),
+            fromSeq(Seq(1, 2)),
             fromSeq(Seq(1, 3)),
             fromSeq(Seq(1, 2, 3)),
             fromSeq(Seq(1, 2, 2))
@@ -69,6 +71,7 @@ class ListTest extends AnyFunSuite {
       ) ==
         fromSeq(
           Seq(
+            fromSeq(Seq(1, 2)),
             fromSeq(Seq(1, 2, 2)),
             fromSeq(Seq(1, 2, 3)),
             fromSeq(Seq(1, 3)),
